@@ -1,16 +1,11 @@
 <?php
 /**
- * Name: Admin Tools
- * Feature ID: 1
- * Minimum Core Version: 1.36.0
- * Version: 3.5.2
- * Description: Tools for developing themes and extensions for WP-Property.
- * Class: UsabilityDynamics\WPP\Admin_tools
+ * Admin Tools
  *
- **/
+ */
 namespace UsabilityDynamics\WPP {
 
-  if( !class_exists( 'UsabilityDynamics\WPP\Admin_tools' ) ) {
+  if( !class_exists( 'UsabilityDynamics\WPP\Admin_Tools' ) ) {
 
     /**
      * Admin_Tools Class

@@ -1,0 +1,33 @@
+{
+    "project": {
+        "name": "usabilitydynamics/wp-property-admin-tools",
+        "description": "",
+        "version": "3.5.2",
+        "url": ""
+    },
+    "files": {
+        "scripts/src/admin.tools.js": {
+            "name": "scripts/src/admin.tools.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {},
+    "classitems": [
+        {
+            "file": "scripts/src/admin.tools.js",
+            "line": 1,
+            "description": "Admin Tools Handler",
+            "class": ""
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type\nAdmin Tools Handler",
+            "line": " scripts/src/admin.tools.js:1"
+        }
+    ]
+}

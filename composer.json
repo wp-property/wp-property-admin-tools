@@ -1,0 +1,16 @@
+
+{
+  "name": "usabilitydynamics/wp-property-admin-tools",
+  "version": "3.5.2",
+  "keywords": [ "wp-property" ],
+  "require": {
+    "usabilitydynamics/wp-property": "2.0.0"
+  },
+  "minimum-stability": "dev",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "http://repository.usabilitydynamics.com"
+    }
+  ]
+}
