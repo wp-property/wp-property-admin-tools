@@ -1,9 +1,14 @@
 <?php
 /**
- * Admin Tools
+ * Name: Admin Tools
+ * Class: UsabilityDynamics\WPP\Admin_Tools
+ * Internal Slug: admin_tools
+ * Minimum Core Version: 1.38.3
+ * Feature ID: 1
+ * Version: 3.5.2
+ * Description: Administrative Tools.
  *
- */
-namespace UsabilityDynamics\WPP {
+ */namespace UsabilityDynamics\WPP {
 
   if( !class_exists( 'UsabilityDynamics\WPP\Admin_Tools' ) ) {
 

@@ -6,8 +6,8 @@
         "url": ""
     },
     "files": {
-        "scripts/src/admin.tools.js": {
-            "name": "scripts/src/admin.tools.js",
+        "scripts/src/wpp.admin.tools.js": {
+            "name": "scripts/src/wpp.admin.tools.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -18,7 +18,7 @@
     "classes": {},
     "classitems": [
         {
-            "file": "scripts/src/admin.tools.js",
+            "file": "scripts/src/wpp.admin.tools.js",
             "line": 1,
             "description": "Admin Tools Handler",
             "class": ""
@@ -27,7 +27,7 @@
     "warnings": [
         {
             "message": "Missing item type\nAdmin Tools Handler",
-            "line": " scripts/src/admin.tools.js:1"
+            "line": " scripts/src/wpp.admin.tools.js:1"
         }
     ]
 }

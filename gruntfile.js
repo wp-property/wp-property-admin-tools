@@ -76,7 +76,7 @@ module.exports = function build( grunt ) {
           wrap: false
         },
         files: {
-          'scripts/admin.tools.dev.js': [ 'scripts/src/admin.tools.js' ]
+          'scripts/wpp.admin.tools.dev.js': [ 'scripts/src/wpp.admin.tools.js' ]
         }
       },
       production: {
@@ -85,7 +85,7 @@ module.exports = function build( grunt ) {
           wrap: false
         },
         files: {
-          'scripts/admin.tools.js': [ 'scripts/src/admin.tools.js' ]
+          'scripts/wpp.admin.tools.js': [ 'scripts/src/wpp.admin.tools.js' ]
         }
       }
     },
