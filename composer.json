@@ -3,9 +3,7 @@
   "name": "usabilitydynamics/wp-property-admin-tools",
   "version": "3.5.2",
   "keywords": [ "wp-property" ],
-  "require": {
-    "usabilitydynamics/wp-property": "2.0.0"
-  },
+  "require": {},
   "minimum-stability": "dev",
   "repositories": [
     {

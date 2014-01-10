@@ -1,5 +1,5 @@
 /**
- * Library Build.
+ * Feature Module Build.
  *
  * @author potanin@UD
  * @version 1.1.2
@@ -7,7 +7,7 @@
  */
 module.exports = function build( grunt ) {
 
-  grunt.initConfig( {
+  grunt.initConfig({
 
     // Read Composer File.
     pkg: grunt.file.readJSON( 'composer.json' ),
@@ -28,22 +28,19 @@ module.exports = function build( grunt ) {
 
     // Compile LESS.
     less: {
-      development: {
-        options: {
-          relativeUrls: true
-        },
-        files: {
-          //'styles/requires.dev.css': [ 'styles/src/requires.less' ]
-        }
-      },
       production: {
         options: {
           yuicompress: true,
           relativeUrls: true
         },
-        files: {
-          //'styles/requires.css': [ 'styles/src/requires.less' ]
-        }
+        files: [
+          {
+            expand: true,
+            cwd: 'styles/src',
+            src: [ '*.js' ],
+            dest: 'styles'
+          }
+        ]
       }
     },
 
@@ -69,24 +66,19 @@ module.exports = function build( grunt ) {
 
     // Uglify Scripts.
     uglify: {
-      development: {
-        options: {
-          preserveComments: true,
-          beautify: true,
-          wrap: false
-        },
-        files: {
-          'scripts/wpp.admin.tools.dev.js': [ 'scripts/src/wpp.admin.tools.js' ]
-        }
-      },
       production: {
         options: {
           preserveComments: false,
           wrap: false
         },
-        files: {
-          'scripts/wpp.admin.tools.js': [ 'scripts/src/wpp.admin.tools.js' ]
-        }
+        files: [
+          {
+            expand: true,
+            cwd: 'scripts/src',
+            src: [ '*.js' ],
+            dest: 'scripts'
+          }
+        ]
       }
     },
 
@@ -114,28 +106,7 @@ module.exports = function build( grunt ) {
     },
 
     // Clean for Development.
-    clean: {
-      all: [
-        "vendor",
-        "static/readme.md",
-        "composer.lock",
-        "styles/*.css",
-        "scripts/*.js"
-      ],
-      update: [
-        "composer.lock"
-      ]
-    },
-
-    // CLI Commands.
-    shell: {
-      update: {
-        options: {
-          stdout: true
-        },
-        command: 'composer update --prefer-source'
-      }
-    },
+    clean: {},
 
     // Coverage Tests.
     mochacov: {
@@ -170,7 +141,6 @@ module.exports = function build( grunt ) {
   grunt.loadNpmTasks( 'grunt-contrib-less' );
   grunt.loadNpmTasks( 'grunt-contrib-concat' );
   grunt.loadNpmTasks( 'grunt-contrib-clean' );
-  grunt.loadNpmTasks( 'grunt-shell' );
   grunt.loadNpmTasks( 'grunt-mocha-cli' );
   grunt.loadNpmTasks( 'grunt-mocha-cov' );
 

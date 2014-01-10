@@ -8,7 +8,8 @@
  * Version: 3.5.2
  * Description: Administrative Tools.
  *
- */namespace UsabilityDynamics\WPP {
+ */
+namespace UsabilityDynamics\WPP {
 
   if( !class_exists( 'UsabilityDynamics\WPP\Admin_Tools' ) ) {
 
