@@ -28,19 +28,23 @@ module.exports = function build( grunt ) {
 
     // Compile LESS.
     less: {
+      development: {
+        options: {
+          yuicompress: false,
+          relativeUrls: true
+        },
+        files: {
+          'styles/wpp.admin.tools.dev.css': [ 'styles/src/wpp.admin.tools.dev.less' ]
+        }
+      },
       production: {
         options: {
           yuicompress: true,
           relativeUrls: true
         },
-        files: [
-          {
-            expand: true,
-            cwd: 'styles/src',
-            src: [ '*.js' ],
-            dest: 'styles'
-          }
-        ]
+        files: {
+          'styles/wpp.admin.tools.css': [ 'styles/src/wpp.admin.tools.less' ]
+        }
       }
     },
 
@@ -54,7 +58,7 @@ module.exports = function build( grunt ) {
         files: [
           //'styles/src/*.*'
         ],
-        tasks: [ 'less' ]
+        tasks: [ 'less:production' ]
       },
       js: {
         files: [
@@ -145,7 +149,7 @@ module.exports = function build( grunt ) {
   grunt.loadNpmTasks( 'grunt-mocha-cov' );
 
   // Register NPM Tasks.
-  grunt.registerTask( 'default', [ 'markdown', 'less' , 'yuidoc', 'uglify' ] );
+  grunt.registerTask( 'default', [ 'markdown', 'less:production' , 'yuidoc', 'uglify:production' ] );
 
   // Build Distribution.
   grunt.registerTask( 'distribution', [ 'mochacli:all', 'mochacov:all', 'clean:all', 'markdown', 'less:production', 'uglify:production' ] );

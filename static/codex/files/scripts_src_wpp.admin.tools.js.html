@@ -94,9 +94,167 @@ define( &#x27;wpp.admin.tools&#x27;, function Loader( require, exports, module )
   return function Handler() {
     console.log( &#x27;initialized&#x27;, module.id, &#x27;module&#x27; );
 
+    jQuery( document ).ready( function() {
+
+      jQuery( &quot;#wpp_inquiry_attribute_fields tbody&quot; ).sortable( {
+        delay: 200
+      } );
+
+      jQuery( &quot;#wpp_inquiry_meta_fields tbody&quot; ).sortable( {
+        delay: 200
+      } );
+
+      jQuery( &quot;#wpp_inquiry_attribute_fields tbody tr, #wpp_inquiry_meta_fields tbody tr&quot; ).live( &quot;mouseover&quot;, function() {
+        jQuery( this ).addClass( &quot;wpp_draggable_handle_show&quot; );
+      } );
+      ;
+
+      jQuery( &quot;#wpp_inquiry_attribute_fields tbody tr, #wpp_inquiry_meta_fields tbody tr&quot; ).live( &quot;mouseout&quot;, function() {
+        jQuery( this ).removeClass( &quot;wpp_draggable_handle_show&quot; );
+      } );
+      ;
+
+      /* Show advanced settings for an attribute when a certain value is changed */
+
+      /*
+       jQuery(&quot;.wpp_searchable_attr_fields&quot;).live(&quot;change&quot;, function() {
+       var parent = jQuery(this).closest(&quot;.wpp_dynamic_table_row&quot;);
+       jQuery(&quot;.wpp_development_advanced_option&quot;, parent).show();
+       });
+       */
+
+      jQuery( &quot;.wpp_all_advanced_settings&quot; ).live( &quot;click&quot;, function() {
+        var action = jQuery( this ).attr( &quot;action&quot; );
+
+        if( action == &quot;expand&quot; ) {
+          jQuery( &quot;#wpp_inquiry_attribute_fields .wpp_development_advanced_option&quot; ).show();
+        }
+
+        if( action == &quot;collapse&quot; ) {
+          jQuery( &quot;#wpp_inquiry_attribute_fields .wpp_development_advanced_option&quot; ).hide();
+        }
+
+      } )
+
+      //* Stats to group functionality */
+      jQuery( &#x27;.wpp_attribute_group&#x27; ).wppGroups();
+
+      //* Fire Event after Row is added */
+      jQuery( &#x27;#wpp_inquiry_attribute_fields tr&#x27; ).live( &#x27;added&#x27;, function() {
+        //* Remove notice block if it exists */
+        var notice = jQuery( this ).find( &#x27;.wpp_notice&#x27; );
+        if( notice.length &gt; 0 ) {
+          notice.remove();
+        }
+        //* Unassign Group from just added Attribute */
+        jQuery( &#x27;input.wpp_group_slug&#x27;, this ).val( &#x27;&#x27; );
+        this.removeAttribute( &#x27;wpp_attribute_group&#x27; );
+
+        //* Remove background-color from the added row if it&#x27;s set */
+        if( typeof jQuery.browser.msie != &#x27;undefined&#x27; &amp;&amp; (parseInt( jQuery.browser.version ) == 9) ) {
+          //* HACK FOR IE9 (it&#x27;s just unset background color) peshkov@UD: */
+          setTimeout( function() {
+            var lr = jQuery( &#x27;#wpp_inquiry_attribute_fields tr.wpp_dynamic_table_row&#x27; ).last();
+            var bc = lr.css( &#x27;background-color&#x27; );
+            lr.css( &#x27;background-color&#x27;, &#x27;&#x27; );
+            jQuery( document ).bind( &#x27;mousemove&#x27;, function() {
+              setTimeout( function() {
+                lr.prev().css( &#x27;background-color&#x27;, bc );
+              }, 50 );
+              jQuery( document ).unbind( &#x27;mousemove&#x27; );
+            } );
+          }, 50 );
+        } else {
+          jQuery( this ).css( &#x27;background-color&#x27;, &#x27;&#x27; );
+        }
+
+        //* Stat to group functionality */
+        jQuery( this ).find( &#x27;.wpp_attribute_group&#x27; ).wppGroups();
+
+      } );
+
+      //* Determine if slug of property stat is the same as Geo Type has and show notice */
+      jQuery( &#x27;#wpp_inquiry_attribute_fields tr .wpp_stats_slug_field&#x27; ).live( &#x27;change&#x27;, function() {
+        var slug = jQuery( this ).val();
+        var geo_type = false;
+        if( typeof geo_type_attrs == &#x27;object&#x27; ) {
+          for( var i in geo_type_attrs ) {
+            if( slug == geo_type_attrs[i] ) {
+              geo_type = true;
+              break;
+            }
+          }
+        }
+        var notice = jQuery( this ).parent().find( &#x27;.wpp_notice&#x27; );
+        if( geo_type ) {
+          if( !notice.length &gt; 0 ) {
+            //* Toggle Advanced option to show notice */
+            var advanced_options = (jQuery( this ).parents( &#x27;tr.wpp_dynamic_table_row&#x27; ).find( &#x27;.wpp_development_advanced_option&#x27; ));
+            if( advanced_options.length &gt; 0 ) {
+              if( jQuery( advanced_options.get( 0 ) ).is( &#x27;:hidden&#x27; ) ) {
+                jQuery( this ).parents( &#x27;tr.wpp_dynamic_table_row&#x27; ).find( &#x27;.wpp_show_advanced&#x27; ).trigger( &#x27;click&#x27; );
+              }
+            }
+            jQuery( this ).parent().append( &#x27;&lt;div class=&quot;wpp_notice&quot;&gt;&lt;/div&gt;&#x27; );
+            notice = jQuery( this ).parent().find( &#x27;.wpp_notice&#x27; );
+          }
+
+          notice.html( &#x27;&#x27; );
+
+        } else {
+          if( notice.length &gt; 0 ) {
+            notice.remove();
+          }
+        }
+      } );
+
+      jQuery( &quot;.wpp_pre_defined_value_setter&quot; ).live( &quot;change&quot;, function() {
+        set_pre_defined_values_for_attribute( this );
+      } );
+
+      jQuery( &quot;.wpp_pre_defined_value_setter&quot; ).each( function() {
+        set_pre_defined_values_for_attribute( this );
+      } );
+
+      function set_pre_defined_values_for_attribute( setter_element ) {
+
+        var wrapper = jQuery( setter_element ).closest( &quot;ul&quot; );
+        var setting = jQuery( setter_element ).val();
+        var value_field = jQuery( &quot;textarea.wpp_attribute_pre_defined_values&quot;, wrapper );
+
+        switch( setting ) {
+
+          case &#x27;input&#x27;:
+            jQuery( value_field ).hide();
+            break;
+
+          case &#x27;range_input&#x27;:
+            jQuery( value_field ).hide();
+            break;
+
+          case &#x27;dropdown&#x27;:
+            jQuery( value_field ).show();
+            break;
+
+          case &#x27;checkbox&#x27;:
+            jQuery( value_field ).hide();
+            break;
+
+          case &#x27;multi_checkbox&#x27;:
+            jQuery( value_field ).show();
+            break;
+
+          default:
+            jQuery( value_field ).hide();
+
+        }
+
+      }
+
+    } );
   }
 
-});
+} );
     </pre>
 </div>
 
