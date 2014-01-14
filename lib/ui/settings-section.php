@@ -33,8 +33,7 @@
               </tr>
             </thead>
             <tbody>
-            <?php
-            if( empty( $wp_properties[ 'property_groups' ] ) ) {
+            <?php if( empty( $wp_properties[ 'property_groups' ] ) ) {
               //* If there is no any group, we set default */
               $wp_properties[ 'property_groups' ] = array(
                 'main' => array(
