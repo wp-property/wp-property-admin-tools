@@ -64,7 +64,7 @@ module.exports = function build( grunt ) {
         files: [
           'scripts/src/*.*'
         ],
-        tasks: [ 'uglify' ]
+        tasks: [ 'uglify:production' ]
       }
     },
 
