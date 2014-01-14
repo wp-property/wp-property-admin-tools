@@ -1,8 +1,4 @@
-<script type="text/javascript">
-  var geo_type_attrs = <?php echo json_encode((array)$wp_properties['geo_type_attributes']); ?>
-</script>
-
-<table class="form-table">
+<table class="form-table" data-requires="wpp.admin.tools">
 
   <tr>
     <td>
