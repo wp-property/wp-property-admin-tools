@@ -2,22 +2,48 @@
  * Admin Tools Handler
  *
  */
-define( 'wpp.admin.tools', [ 'wpp.model', 'wpp.locale', 'jquery', 'knockout', 'knockout.mapping' ], function() {
+define( 'wpp.admin.tools', [ 'wpp.model', 'jquery', 'knockout', 'knockout.mapping' ], function() {
   // console.log( 'wpp.admin.tools:ko', ko );
   // console.log( 'wpp.admin.tools:jQuery', jQuery );
 
   return function domReady() {
 
-    var jQuery  = require( 'jquery' );
+    //var jQuery  = require( 'jquery' );
     var ko      = require( 'knockout' );
+    var ko_mapping      = require( 'knockout.mapping' );
     var model   = require( 'wpp.model' );
-    var locale  = require( 'wpp.locale' );
 
-    // console.log( 'wpp.admin.tools:model', model );
-    // console.log( 'wpp.admin.tools:locale', locale );
-    // console.log( 'wpp.admin.tools:ko', ko );
-    // console.log( 'wpp.admin.tools:ko.mapping', ko.mapping );
-    // console.log( 'wpp.admin.tools:jQuery', jQuery );
+    var mapping = {
+
+      //** Observable Attributes */
+      attributes: {
+        create : function( data ) {
+          return ko_mapping.fromJS( data.data );
+        }
+      },
+
+      groups: {
+        create : function( data ) {
+          var that = ko.utils.arrayMap( data.data, function( group ){
+            console.log(group);
+            group.new_item = false;
+            return new data.parent._group( group );
+          });
+          return ko_mapping.fromJS( that );
+        }
+      },
+
+      _group: function( data ) {
+        return data;
+      }
+
+    };
+
+    var AttributeBuilder = ko_mapping.fromJS( model.settings._data_structure, mapping );
+
+    console.log( AttributeBuilder.groups() );
+
+    ko.applyBindings( AttributeBuilder, this );
 
     return;
 

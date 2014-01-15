@@ -1,4 +1,17 @@
-<table class="form-table" data-requires="wpp.admin.tools">
+<div data-requires="wpp.admin.tools" class="form-table wpp_option_table wpp_setting_interface">
+
+  <ul class="wpp_vertical_tabs" data-bind="visible: console.log($root.groups())">
+    <li class="wpp_side_tab wpp_group_item">
+      <h2 data-bind="text: $data.slug()"></h2>
+    </li>
+  </ul>
+
+</div>
+
+
+
+
+<table class="form-table">
 
   <tr>
     <td>
