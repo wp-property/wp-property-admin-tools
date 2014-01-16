@@ -37,7 +37,7 @@ define( 'wpp.admin.tools', [ 'wpp.model', 'jquery', 'knockout', 'knockout.mappin
             attr.new_item = false;
             return new mapping._attribute( attr );
           });
-          return ko.observable( that );
+          return ko.observableArray( that );
         }
       },
 
@@ -47,7 +47,7 @@ define( 'wpp.admin.tools', [ 'wpp.model', 'jquery', 'knockout', 'knockout.mappin
             group.new_item = false;
             return new mapping._group( group );
           });
-          return ko.observable( that );
+          return ko.observableArray( that );
         }
       },
 
@@ -67,8 +67,7 @@ define( 'wpp.admin.tools', [ 'wpp.model', 'jquery', 'knockout', 'knockout.mappin
         }
         
         self.delete_group = function( model ) {
-            var c = typeof wpp.strings !== 'undefined' && typeof wpp.strings.remove_confirmation !== 'undefined' ?
-            wpp.strings.remove_confirmation : 'Are you sure you want to remove group? All assigned attributes will be moved to Other.';
+            var c = 'Are you sure you want to remove group? All assigned attributes will be moved to Other.';
             if ( window.confirm( c ) ) {
               ko.utils.arrayForEach( model.attributes(), function(attr){
                 if ( attr.group() === self.slug() ) {
@@ -136,20 +135,83 @@ define( 'wpp.admin.tools', [ 'wpp.model', 'jquery', 'knockout', 'knockout.mappin
               self[i] = ko.observable( args[i] );
             }
           }
+          
+          /**
+           * Show or hide predefined values for admin
+           */
+          self.show_admin_values = function( object, e ) {
+            var need_predefined = ['dropdown', 'multi_checkbox'];
+            var select = jQuery(e.target);
+            var admin_input = select.parents('.wpp_collapsed').find('.wpp_admin_values');
+            admin_input.hide();
+            if ( need_predefined.indexOf(select.val()) !== -1 ) {
+              admin_input.show();
+            }
+          };
+
+          /**
+           * Show or hide predefined values for search
+           */
+          self.show_search_values = function( object, e ) {
+            var need_predefined = ['dropdown', 'multi_checkbox'];
+            var select = jQuery(e.target);
+            var admin_input = select.parents('.wpp_collapsed').find('.wpp_search_values');
+            admin_input.hide();
+            if ( need_predefined.indexOf(select.val()) !== -1 ) {
+              admin_input.show();
+            }
+          };
+
+          /**
+           * Toggle Attribute Settings handler
+           */
+          self.toggle_settings = function() {
+            self.show_settings(!self.show_settings());
+          };
+
+          /**
+           * Toggle Classifications selector handler
+           */
+          self.toggle_classifications = function(item, e) {
+            e.stopPropagation();
+            self.show_classifications(!self.show_classifications());
+          };
+
+          /**
+           * Handle click on attribute area
+           */
+          self.click_inside = function( item, e ) {
+            self.show_classifications(false);
+            return true;
+          };
+
+          /**
+           * Select classification handler
+           */
+          self.select_classification = function( item, e ) {
+            e.stopPropagation();
+            self.classification(this.slug());
+            self.classification_label(this.label());
+            self.classification_settings( ko.mapping.toJS( this.settings ) );
+            self.show_classifications(false);
+            //** Keep predefined types updated */
+            jQuery('.wpp_predefined_input_type').trigger('change');
+            jQuery('.wpp_attribute_classification').trigger('change');
+          };
       
       }
 
     };
 
     var AttributeBuilder = ko_mapping.fromJS( model.settings._computed.data_structure, mapping );
+    AttributeBuilder._group = mapping._group;
     AttributeBuilder.add_data = function( item, vhanlder, view_model, event ) {
         if( typeof vhanlder == 'function' ) {
           item.push( new vhanlder );
         } else if ( typeof view_model[ vhanlder ] === 'function' ) {
           item.push( new view_model[ vhanlder ]() );
         }
-        try{ self._args.actions.add_data( self, event, item, vhanlder ) } catch(e) { self._args.callback( e, view_model ); }
-      };
+    };
 
     console.log( 'groups', AttributeBuilder.groups() );
     console.log( 'attributes', AttributeBuilder.attributes() );
