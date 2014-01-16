@@ -180,14 +180,6 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
       }
     };
 
-    var _objectMap = function(o, handler) {
-      var res = {};
-      for (var key in o) {
-        res[key] = handler(o[key]);
-      }
-      return res;
-    };
-
     var mapping = {
       _objectMap: function(o, handler) {
         var res = [];
@@ -373,6 +365,13 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
         item.push(new vhanlder);
       } else if (typeof view_model[ vhanlder ] === 'function') {
         item.push(new view_model[ vhanlder ]());
+      }
+    };
+    
+    AttributeBuilder.remove_data = function( item, data, event ) {
+      var c = 'Are you sure you want to remove it?';
+      if ( confirm( c ) ) {
+        item.remove( data );
       }
     };
 
