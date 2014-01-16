@@ -39,7 +39,32 @@
                     <div class="wpp_tab_panel_wrapper">
                         <!-- ko foreach: $root.groups -->
                         <div data-bind="attr: {id:$data.slug}">
-                          <ul class="wpp_tab_panel connectedSortable" data-bind="sortable:{start:$parentContext.$root.sort_start_cb,tolerance:'pointer', handle:'.wpp_handle', delay: 500}, foreach: $root.attributes">
+                            <ul class="wpp_tab_panel connectedSortable" data-bind="sortable:{start:$parentContext.$root.sort_start_cb,tolerance:'pointer', handle:'.wpp_handle', delay: 500}, foreach: $root.attributes">
+                                <!-- ko if: $data.group() === $parentContext.$data.slug() && !$data.system() -->
+                                    <li class="wpp_list_item wpp_attribute" data-bind="click: $data.click_inside, attr: {wpp_attribute_slug:$data.slug()}">
+                                        <input type="hidden" data-bind="value: $data.group, attr: { name: 'wpp_settings[property_stats_groups][' + $data.slug() + ']' }" />
+                                        <input class="wpp_attribute_classification" type="hidden" data-bind="value: $data.classification,  attr: { name: 'wpp_settings[attribute_classification][' + $data.slug() + ']' }" />
+                                        <span class="wpp_button wpp_left wpp_handle"><span class="wpp_icon wpp_icon_120"></span></span>
+
+                                        <div class="wpp_input_wrapper">
+                                            <input type="text" class="wpp_label wpp_major" data-bind="unique_slug:{slug:$data.slug,text:$data.label,instance:'wpp_attribute_item_slug'}, value: $data.label, attr: { 'name': 'wpp_settings[property_stats][' + ( $data.slug() ) + ']' }" autocomplete="off" />
+                                        </div>
+                                        
+                                        <div class="wpp_input_wrapper wpp_hide_on_drag">
+                                            <input type="text" class="wpp_label wpp_major" data-bind="value: $data.classification_label" autocomplete="off" readonly="readonly" />
+                                            <!-- ko if: !$data.reserved() -->
+                                            <ul class="wpp_attribute_classifications" data-bind="visible: $data.show_classifications, foreach: $root.attribute_classification">
+                                                <li data-bind="visible: !$data.settings.system()" ><a data-bind="click: $parentContext.$data.select_classification" href="javascript:void(0);"><span class="wpp_label" data-bind="text: $data.label"></span><span class="wpp_description" data-bind="text: $data.description"></span></a></li>
+                                            </ul>
+                                            <span class="wpp_input_button" data-bind="click: $data.toggle_classifications"><span class="wpp_input_icon"></span></span>
+                                            <!-- /ko -->
+                                        </div>
+                                    </li>
+                                <!-- /ko -->
+                            </ul>
+                        </div>
+                        <?php /*<div data-bind="attr: {id:$data.slug}">
+                            <ul class="wpp_tab_panel connectedSortable" data-bind="sortable:{start:$parentContext.$root.sort_start_cb,tolerance:'pointer', handle:'.wpp_handle', delay: 500}, foreach: $root.attributes">
                             <!-- ko if: $data.group() === $parentContext.$data.slug() && !$data.system() -->
                             <li class="wpp_list_item wpp_attribute" data-bind="click: $data.click_inside, attr: {wpp_attribute_slug:$data.slug()}">
 
@@ -157,7 +182,7 @@
                             <!-- /ko -->
                           </ul>
                           <input type="button" class="button-secondary" data-bind="click: $root.add_attribute.bind( $root, {group:$data.slug()} )" value="Add New Attribute" />
-                        </div>
+                        </div> */ ?>
                         <!-- /ko -->
                     </div>
                   </div>
@@ -177,7 +202,7 @@
         <ul>
           <li>
             <label>Main Group</label>
-            <select data-bind="attr:{name:'wpp_settings[configuration][main_stats_group]'}, options: $root.groups, optionsText: 'label', optionsValue: 'slug', value: wpp.main_stats_group"></select>
+            <select data-bind="attr:{name:'wpp_settings[configuration][main_stats_group]'}, options: $root.groups, optionsText: 'label', optionsValue: 'slug'"></select>
             <span class="wpp_help wpp_button" style="margin-left:5px; margin-bottom:5px;">
               <span class="wpp_icon wpp_icon_106"></span>
               <div class="wpp_description">Descriptions for this option</div>
