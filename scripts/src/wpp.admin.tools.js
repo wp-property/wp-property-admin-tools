@@ -12,36 +12,147 @@ define( 'wpp.admin.tools', [ 'wpp.model', 'jquery', 'knockout', 'knockout.mappin
     var ko      = require( 'knockout' );
     var ko_mapping      = require( 'knockout.mapping' );
     var model   = require( 'wpp.model' );
+    var _objectMap = function(o, handler){
+      var res = {};
+      for(var key in o) {
+         res[key] = handler(o[key]);
+      }
+      return res;
+    };
 
     var mapping = {
+    
+        _objectMap: function(o, handler) {
+            var res = [];
+            for(var key in o) {
+             res.push(handler(o[key]));
+            }
+            return res;
+        },
 
       //** Observable Attributes */
       attributes: {
         create : function( data ) {
-          return ko_mapping.fromJS( data.data );
+          var that = mapping._objectMap( data.data, function( attr ){
+            attr.new_item = false;
+            return new mapping._attribute( attr );
+          });
+          return ko.observable( that );
         }
       },
 
       groups: {
         create : function( data ) {
-          var that = ko.utils.arrayMap( data.data, function( group ){
-            console.log(group);
+          var that = mapping._objectMap( data.data, function( group ){
             group.new_item = false;
-            return new data.parent._group( group );
+            return new mapping._group( group );
           });
-          return ko_mapping.fromJS( that );
+          return ko.observable( that );
         }
       },
 
-      _group: function( data ) {
-        return data;
+      _group: function( args ) {
+        var self = this;
+        args = jQuery.extend( true, {
+            label      : 'New Group',
+            slug       : 'new_group_tab_slug',
+            edit_state  : false,
+            reserved   : false,
+            new_item   : true
+        }, typeof args === 'object' ? args : {} );
+        for( var i in args ) {
+            if(typeof args[i] !== 'function') {
+                self[i] = ko.observable( args[i] );
+            }
+        }
+        
+        self.delete_group = function( model ) {
+            var c = typeof wpp.strings !== 'undefined' && typeof wpp.strings.remove_confirmation !== 'undefined' ?
+            wpp.strings.remove_confirmation : 'Are you sure you want to remove group? All assigned attributes will be moved to Other.';
+            if ( window.confirm( c ) ) {
+              ko.utils.arrayForEach( model.attributes(), function(attr){
+                if ( attr.group() === self.slug() ) {
+                  attr.group('wpp_main');
+                }
+              });
+              model.groups.remove( this );
+            }
+          };
+          
+        self.toggleEdit = function( item, event ) {
+            jQuery('input[tab="tab_'+item.slug()+'"]').trigger('change');
+            self.edit_state(!self.edit_state());
+            if ( self.edit_state() ) {
+              self.prevName = self.slug();
+              jQuery('input[tab="tab_'+item.slug()+'"]').focus().select();
+            } else {
+              var model = false;
+              if ( typeof wpp.settings_ui.view_model === 'object' ) {
+                model = wpp.settings_ui.view_model.global;
+                if ( self.slug() !== self.prevName ) {
+                  ko.utils.arrayForEach( model.attributes(), function(attr){
+                    if ( attr.group() === self.prevName ) {
+                      attr.group(self.slug());
+                    }
+                  });
+                }
+              }
+              if ( jQuery.trim(self.label()) === '' ) {
+                self.label( self.prevName );
+              }
+            }
+          };
+      },
+      
+      _attribute: function ( args ) {
+        var self = this;
+
+          args = jQuery.extend( true, {
+            label                : 'New Attribute',
+            slug                 : 'new_attribute',
+            group                : 'wpp_main',
+            show_settings        : false,
+            show_classifications : false,
+            classification_label : 'Short Text',
+            classification       : 'string',
+            classification_settings : {},
+            searchable           : false,
+            sortable             : false,
+            in_overview          : false,
+            disabled             : false,
+            search_predefined    : '',
+            admin_predefined     : '',
+            admin_input_type     : 'input',
+            search_input_type    : 'input',
+            show_admin_pre_values: false,
+            show_search_pre_values: false,
+            system               : false,
+            reserved             : false,
+            new_item             : true
+          }, typeof args === 'object' ? args : {} );
+
+          for( var i in args ) {
+            if (typeof args[i] !== 'function'){
+              self[i] = ko.observable( args[i] );
+            }
+          }
+      
       }
 
     };
 
-    var AttributeBuilder = ko_mapping.fromJS( model.settings._data_structure, mapping );
+    var AttributeBuilder = ko_mapping.fromJS( model.settings._computed.data_structure, mapping );
+    AttributeBuilder.add_data = function( item, vhanlder, view_model, event ) {
+        if( typeof vhanlder == 'function' ) {
+          item.push( new vhanlder );
+        } else if ( typeof view_model[ vhanlder ] === 'function' ) {
+          item.push( new view_model[ vhanlder ]() );
+        }
+        try{ self._args.actions.add_data( self, event, item, vhanlder ) } catch(e) { self._args.callback( e, view_model ); }
+      };
 
-    console.log( AttributeBuilder.groups() );
+    console.log( 'groups', AttributeBuilder.groups() );
+    console.log( 'attributes', AttributeBuilder.attributes() );
 
     ko.applyBindings( AttributeBuilder, this );
 
