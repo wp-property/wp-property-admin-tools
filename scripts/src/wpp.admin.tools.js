@@ -1,27 +1,33 @@
 /**
  * Admin Tools Handler
- *
+ * @author korotkov@ud
  */
 define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping', 'jquery.ui'], function() {
-  // console.log( 'wpp.admin.tools:ko', ko );
-  // console.log( 'wpp.admin.tools:jQuery', jQuery );
 
+  /**
+   * Ready Callback
+   * @returns {undefined}
+   */
   return function domReady() {
 
-    //var jQuery  = require( 'jquery' );
+    //** What we are going to use  */
     var ko = require('knockout');
     var ko_mapping = require('knockout.mapping');
     var model = require('wpp.model');
-    var ui = require('jquery.ui');
 
+    /**
+     * KnockoutJS binding for sortable
+     */
     ko.bindingHandlers.sortable = {
-      init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-      },
+      init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {},
       update: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         jQuery(element).sortable(valueAccessor());
       }
     };
 
+    /**
+     * KnockoutJS binding for Enter key pressing prevention
+     */
     ko.bindingHandlers.enter_key = {
       init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         jQuery(element).keypress(function(event) {
@@ -34,60 +40,51 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
       }
     };
 
+    /**
+     * KnockoutJS binding for UI tabs
+     */
     ko.bindingHandlers.tabbed = {
       init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-
         ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
           jQuery(element).tabs("destroy");
         });
-
       },
       update: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-
         jQuery(element).bind("tabsselect", function(event, ui) {
           model.attributes_tab_index = ui.index - 1;
         });
-
         setTimeout(function() {
-
           try {
-
             var elem = jQuery(element);
-
-            if (elem.is(':ui-tabs'))
+            if (elem.is(':ui-tabs')) {
               elem.tabs("destroy");
-
+            }
             var $tabs = elem.tabs();
-
             $tabs.tabs("option", "selected", (model.attributes_tab_index !== 'undefined' ? model.attributes_tab_index : 0));
             if (typeof allBindingsAccessor().droppable !== 'undefined') {
-
               var defaults = {
                 list: '.connectedSortable',
                 accept: '.connectedSortable li',
                 hoverClass: 'ui-state-hover'
               };
-
               var data = jQuery.extend(defaults, allBindingsAccessor().droppable);
-
               data.drop = function(event, ui) {
                 if (typeof data.drop_cb == 'function') {
                   data.drop_cb(event, ui, viewModel);
                 }
               }
-
               jQuery("ul:first li", $tabs).droppable(data);
             }
-
           } catch (e) {
             console.log('ko.bindingHandlers.tabbed', e.message);
           }
-
-
         }, 200);
       }
     };
 
+    /**
+     * KnockoutJS binding for unique slug generator
+     */
     ko.bindingHandlers.unique_slug = {
       init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
         var settings = jQuery.extend({
@@ -258,6 +255,7 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
           }
         };
       },
+
       _attribute: function(args) {
         var self = this;
 
@@ -347,7 +345,7 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
           e.stopPropagation();
           self.classification(this.slug());
           self.classification_label(this.label());
-          self.classification_settings(ko.mapping.toJS(this.settings));
+          self.classification_settings(ko_mapping.toJS(this.settings));
           self.show_classifications(false);
           //** Keep predefined types updated */
           jQuery('.wpp_predefined_input_type').trigger('change');
@@ -358,8 +356,15 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
 
     };
 
-    var AttributeBuilder = ko_mapping.fromJS(model.settings._computed.data_structure, mapping);
+    var prepared_data = jQuery.extend(model.settings._computed.data_structure, {
+      attribute_classification: mapping._objectMap(model.settings._attribute_classifications, function(data) {
+        return data;
+      })
+    });
+
+    var AttributeBuilder = ko_mapping.fromJS(prepared_data, mapping);
     AttributeBuilder._group = mapping._group;
+    AttributeBuilder._attribute = mapping._attribute;
     AttributeBuilder.add_data = function(item, vhanlder, view_model, event) {
       if (typeof vhanlder == 'function') {
         item.push(new vhanlder);
@@ -367,13 +372,43 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
         item.push(new view_model[ vhanlder ]());
       }
     };
-    
+
     AttributeBuilder.remove_data = function( item, data, event ) {
       var c = 'Are you sure you want to remove it?';
       if ( confirm( c ) ) {
         item.remove( data );
       }
     };
+
+    //** Add Attribute handler */
+    AttributeBuilder.add_attribute = function( attr ) {
+      //** Default settings for classification Short Text */
+      attr.classification_settings = {searchable : true, indexable : true, editable : true, type : 'string'};
+      this.attributes.push( new this._attribute( attr ) );
+    };
+
+    //** Callback function for Drop event */
+    AttributeBuilder.drop_cb = function( event, item, viewModel ) {
+      var item_slug = jQuery( item.draggable ).attr('wpp_attribute_slug');
+      var target_group = jQuery( event.target ).attr('wpp_group_name');
+      ko.utils.arrayForEach(viewModel.attributes(), function(attr){
+        if ( attr.slug() === item_slug ) {
+          if ( attr.group() !== target_group ) {
+            item.draggable.hide( "fast", function() {
+              attr.group(target_group);
+              jQuery('.wpp_attribute_classification').trigger('change');
+            });
+          }
+        }
+      });
+    };
+
+    //** Sort Start Callback */
+    AttributeBuilder.sort_start_cb = function( event, object ) {
+      object.helper.width(305).height(40);
+    };
+
+    console.log(AttributeBuilder);
 
     ko.applyBindings(AttributeBuilder, this);
 

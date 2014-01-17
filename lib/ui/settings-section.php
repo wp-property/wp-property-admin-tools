@@ -44,7 +44,7 @@
                                     <li class="wpp_list_item wpp_attribute" data-bind="click: $data.click_inside, attr: {wpp_attribute_slug:$data.slug()}">
                                         <input type="hidden" data-bind="value: $data.group, attr: { name: 'wpp_settings[property_stats_groups][' + $data.slug() + ']' }" />
                                         <input class="wpp_attribute_classification" type="hidden" data-bind="value: $data.classification,  attr: { name: 'wpp_settings[attribute_classification][' + $data.slug() + ']' }" />
-                                        <span class="wpp_button wpp_left wpp_handle"><span class="wpp_icon wpp_icon_120"></span></span>
+                                        <span class="wpp_button wpp_left wpp_handle"><span class="wpp_icon wpp_icon_120">M</span></span>
 
                                         <div class="wpp_input_wrapper">
                                             <input type="text" class="wpp_label wpp_major" data-bind="unique_slug:{slug:$data.slug,text:$data.label,instance:'wpp_attribute_item_slug'}, value: $data.label, attr: { 'name': 'wpp_settings[property_stats][' + ( $data.slug() ) + ']' }" autocomplete="off" />
@@ -71,101 +71,88 @@
                                             <div class="row">
                                                 <textarea class="wpp_textarea" placeholder="Please enter a description" data-bind="value: $data.description, attr:{'name':'wpp_settings[property_stats_descriptions]['+$data.slug()+']'}" ></textarea>
                                             </div>
+                                            <div class="row clearfix">
+                                              <div class="wpp_left">
+                                                <table class="wpp_clean">
+                                                  <tbody>
+                                                    <tr>
+                                                      <td><label data-bind="attr:{'for':'wpp_attr_slug_'+$data.slug()}">Slug:</label></td>
+                                                      <td><input type="text" class="wpp_slug" readonly="true" data-bind="attr:{id:'wpp_attr_slug_'+$data.slug()}, value: $data.slug"></input></td>
+                                                    </tr>
+                                                    <!-- ko if: $data.classification_settings().editable -->
+                                                    <!-- Administrative Input -->
+                                                    <tr>
+                                                      <td><label data-bind="attr: {'for':'wpp_admin_inputs_'+$data.slug()}">Admin Input:</label></td>
+                                                      <td><select class="wpp_predefined_input_type wpp_admin_inputs" data-bind="value:$data.admin_input_type, attr: {id:'wpp_admin_inputs_'+$data.slug(),_type:$data.admin_input_type, name: 'wpp_settings[admin_attr_fields][' + $data.slug() + ']'}, event: {change: $data.show_admin_values}"></select></td>
+                                                    </tr>
+                                                    <!-- ko if: $data.classification_settings().admin_predefined_values -->
+                                                    <!-- Administrative predefined values -->
+                                                    <tr class="wpp_admin_values" style="display:none;">
+                                                      <td><label>Admin Predefined:</label></td>
+                                                      <td><textarea data-bind="value: $data.admin_predefined, attr: {name: 'wpp_settings[predefined_values][' + $data.slug() + ']'}"></textarea></td>
+                                                    </tr>
+                                                    <!-- /ko -->
+                                                    <!-- /ko -->
+                                                    <!-- ko if: $data.classification_settings().searchable -->
+                                                    <!-- Search Input -->
+                                                    <tr>
+                                                      <td><label data-bind="attr: {'for':'wpp_search_inputs_'+$data.slug()}">Search Input:</label></td>
+                                                      <td><select class="wpp_predefined_input_type wpp_search_inputs" data-bind="value:$data.search_input_type, attr: {id:'wpp_search_inputs_'+$data.slug(), _type:$data.search_input_type, name: 'wpp_settings[searchable_attr_fields][' + $data.slug() + ']'}, event: {change: $data.show_search_values}"></select></td>
+                                                    </tr>
+                                                    <!-- ko if: $data.classification_settings().search_predefined_values -->
+                                                    <!-- Search predefined values -->
+                                                    <tr class="wpp_search_values" style="display:none;">
+                                                      <td><label>Search Predefined Values:</label></td>
+                                                      <td><textarea data-bind="value: $data.search_predefined, attr: {name: 'wpp_settings[predefined_search_values][' + $data.slug() + ']'}"></textarea></td>
+                                                    </tr>
+                                                    <!-- /ko -->
+                                                    <!-- /ko -->
+                                                  </tbody>
+                                                </table>
+                                              </div>
+                                              <div class="wpp_right">
+                                                <table class="wpp_clean">
+                                                  <tbody>
+                                                    <tr>
+                                                      <td>
+                                                        <input type="checkbox" data-bind="checked: $data.sortable, attr: {id:'wpp_attr_sortable_'+$data.slug(), name: 'wpp_settings[sortable_attributes][]' }, value: $data.slug"></input>
+                                                        <label data-bind="attr: {'for':'wpp_attr_sortable_'+$data.slug()}">Sortable</label>
+                                                      </td>
+                                                    </tr>
+                                                    <!-- ko if: $data.classification_settings().searchable -->
+                                                    <tr>
+                                                      <td>
+                                                        <input type="checkbox" data-bind="checked: $data.searchable, attr: {id:'wpp_attr_searchable_'+$data.slug(), name: 'wpp_settings[searchable_attributes][]' }, value: $data.slug"></input>
+                                                        <label data-bind="attr: {'for':'wpp_attr_searchable_'+$data.slug()}">Searchable</label>
+                                                      </td>
+                                                    </tr>
+                                                    <!-- /ko -->
+                                                    <tr>
+                                                      <td>
+                                                        <input type="checkbox" data-bind="checked: $data.in_overview, attr: {id:'wpp_attr_in_overview_'+$data.slug(), name: 'wpp_settings[column_attributes][]' }, value: $data.slug"></input>
+                                                        <label data-bind="attr: {'for':'wpp_attr_in_overview_'+$data.slug()}">Show in Overview</label>
+                                                      </td>
+                                                    </tr>
+                                                    <!-- ko if: $data.classification_settings().can_be_disabled -->
+                                                    <tr>
+                                                      <td>
+                                                        <input type="checkbox" data-bind="checked: $data.disabled, attr: {id:'wpp_attr_disabled_'+$data.slug(), name: 'wpp_settings[disabled_attributes][]' }, value: $data.slug"></input>
+                                                        <label data-bind="attr: {'for':'wpp_attr_disabled_'+$data.slug()}">Disabled</label>
+                                                      </td>
+                                                    </tr>
+                                                    <!-- /ko -->
+                                                  </tbody>
+                                              </table>
+                                            </div>
+                                          </div>
+
                                         </div>
+                                        <div class="wpp_clear"></div>
                                     </li>
                                 <!-- /ko -->
                             </ul>
+                            <input type="button" class="button-secondary" data-bind="click: $root.add_attribute.bind( $root, {group:$data.slug()} )" value="Add New Attribute"></input>
                         </div>
-                        <?php /*
-
-                              <div class="wpp_collapsed wpp_hide_on_drag" data-bind="visible: $data.show_settings">
-
-                                <div class="row">
-                                  <textarea class="wpp_textarea" placeholder="Please enter a description" data-bind="value: $data.description, attr: { 'name': 'wpp_settings[property_stats_descriptions][' + $data.slug() + ']' }" />
-                                </div>
-
-                                <div class="row clearfix">
-                                  <div class="wpp_left">
-                                    <table class="wpp_clean">
-                                      <tbody>
-                                        <tr>
-                                          <td><label data-bind="attr:{'for':'wpp_attr_slug_'+$data.slug()}">Slug:</label></td>
-                                          <td><input type="text" class="wpp_slug" readonly="true" data-bind="attr:{id:'wpp_attr_slug_'+$data.slug()}, value: $data.slug" /></td>
-                                        </tr>
-                                        <!-- ko if: $data.classification_settings().editable -->
-                                        <!-- Administrative Input -->
-                                        <tr>
-                                          <td><label data-bind="attr: {'for':'wpp_admin_inputs_'+$data.slug()}">Admin Input:</label></td>
-                                          <td><select class="wpp_predefined_input_type wpp_admin_inputs" data-bind="value:$data.admin_input_type, attr: {id:'wpp_admin_inputs_'+$data.slug(),_type:$data.admin_input_type, name: 'wpp_settings[admin_attr_fields][' + $data.slug() + ']'}, event: {change: $data.show_admin_values}"></select></td>
-                                        </tr>
-                                        <!-- ko if: $data.classification_settings().admin_predefined_values -->
-                                        <!-- Administrative predefined values -->
-                                        <tr class="wpp_admin_values" style="display:none;">
-                                          <td><label>Admin Predefined:</label></td>
-                                          <td><textarea data-bind="value: $data.admin_predefined, attr: {name: 'wpp_settings[predefined_values][' + $data.slug() + ']'}"/></td>
-                                        </tr>
-                                        <!-- /ko -->
-                                        <!-- /ko -->
-                                        <!-- ko if: $data.classification_settings().searchable -->
-                                        <!-- Search Input -->
-                                        <tr>
-                                          <td><label data-bind="attr: {'for':'wpp_search_inputs_'+$data.slug()}">Search Input:</label></td>
-                                          <td><select class="wpp_predefined_input_type wpp_search_inputs" data-bind="value:$data.search_input_type, attr: {id:'wpp_search_inputs_'+$data.slug(), _type:$data.search_input_type, name: 'wpp_settings[searchable_attr_fields][' + $data.slug() + ']'}, event: {change: $data.show_search_values}"></select></td>
-                                        </tr>
-                                        <!-- ko if: $data.classification_settings().search_predefined_values -->
-                                        <!-- Search predefined values -->
-                                        <tr class="wpp_search_values" style="display:none;">
-                                          <td><label>Search Predefined Values:</label></td>
-                                          <td><textarea data-bind="value: $data.search_predefined, attr: {name: 'wpp_settings[predefined_search_values][' + $data.slug() + ']'}"/></td>
-                                        </tr>
-                                        <!-- /ko -->
-                                        <!-- /ko -->
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                  <div class="wpp_right">
-                                    <table class="wpp_clean">
-                                      <tbody>
-                                        <tr>
-                                          <td>
-                                            <input type="checkbox" data-bind="checked: $data.sortable, attr: {id:'wpp_attr_sortable_'+$data.slug(), name: 'wpp_settings[sortable_attributes][]' }, value: $data.slug" />
-                                            <label data-bind="attr: {'for':'wpp_attr_sortable_'+$data.slug()}">Sortable</label>
-                                          </td>
-                                        </tr>
-                                        <!-- ko if: $data.classification_settings().searchable -->
-                                        <tr>
-                                          <td>
-                                            <input type="checkbox" data-bind="checked: $data.searchable, attr: {id:'wpp_attr_searchable_'+$data.slug(), name: 'wpp_settings[searchable_attributes][]' }, value: $data.slug" />
-                                            <label data-bind="attr: {'for':'wpp_attr_searchable_'+$data.slug()}">Searchable</label>
-                                          </td>
-                                        </tr>
-                                        <!-- /ko -->
-                                        <tr>
-                                          <td>
-                                            <input type="checkbox" data-bind="checked: $data.in_overview, attr: {id:'wpp_attr_in_overview_'+$data.slug(), name: 'wpp_settings[column_attributes][]' }, value: $data.slug" />
-                                            <label data-bind="attr: {'for':'wpp_attr_in_overview_'+$data.slug()}">Show in Overview</label>
-                                          </td>
-                                        </tr>
-                                        <!-- ko if: $data.classification_settings().can_be_disabled -->
-                                        <tr>
-                                          <td>
-                                            <input type="checkbox" data-bind="checked: $data.disabled, attr: {id:'wpp_attr_disabled_'+$data.slug(), name: 'wpp_settings[disabled_attributes][]' }, value: $data.slug" />
-                                            <label data-bind="attr: {'for':'wpp_attr_disabled_'+$data.slug()}">Disabled</label>
-                                          </td>
-                                        </tr>
-                                        <!-- /ko -->
-                                      </tbody>
-                                    </table>
-                                  </div>
-                                </div>
-
-                              </div>
-                              <div class="wpp_clear"></div>
-                            </li>
-                            <!-- /ko -->
-                          </ul>
-                          <input type="button" class="button-secondary" data-bind="click: $root.add_attribute.bind( $root, {group:$data.slug()} )" value="Add New Attribute" />
-                        </div> */ ?>
                         <!-- /ko -->
                     </div>
                   </div>
