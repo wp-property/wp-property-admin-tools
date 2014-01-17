@@ -4,6 +4,77 @@
  */
 define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping', 'jquery.ui'], function() {
 
+  jQuery(document).bind( 'wpp::attribute_builder::init', function( e, model, settings ) {
+
+    /**
+     * Was not able to do that using KO
+     */
+    function wpp_render_input_types() {
+
+      var self = jQuery( this );
+      var item = self.parents( 'li.wpp_attribute' );
+      var attr_classification = self.val();
+      var admin_control  = jQuery('select.wpp_admin_inputs', item);
+      var search_control = jQuery('select.wpp_search_inputs', item);
+
+      if( attr_classification !== '' && typeof settings._attribute_classifications[attr_classification] !== 'undefined' ) {
+        admin_control.empty();
+        for ( var i in settings._attribute_classifications[attr_classification].admin ) {
+          if (typeof settings._attribute_classifications[attr_classification].admin[i] !=='function'){
+            admin_control.append( '<option value="'+i+'">'+settings._attribute_classifications[attr_classification].admin[i]+'</option>' );
+          }
+        }
+        admin_control.val(admin_control.attr('_type'));
+
+        search_control.empty();
+        for ( var j in settings._attribute_classifications[attr_classification].search ) {
+          if (typeof settings._attribute_classifications[attr_classification].search[j] !== 'function'){
+            search_control.append( '<option value="'+j+'">'+settings._attribute_classifications[attr_classification].search[j]+'</option>' );
+          }
+        }
+        search_control.val(search_control.attr('_type'));
+      }
+
+    }
+
+    /**
+     * Help attribute tabs content to be proper height
+     */
+    jQuery(document).bind('admin_tools_show wpp_groups_changed wpp_attributes_changed', function(e, element){
+      setTimeout(function(){
+        jQuery('.wpp_tab_panel', element).css({'min-height':jQuery('.wpp_vertical_tabs_wrapper', element).height()});
+      }, 200);
+    });
+
+    /**
+     * Subscribe attributes
+     **/
+    model.attributes.subscribe(function( attributes ){
+      jQuery( document ).trigger('wpp_attributes_changed', jQuery('.wpp_section_class_admin_tools_settings_page'));
+      setTimeout(function(){jQuery('.wpp_attribute_classification').trigger('change');}, 100);
+    });
+
+    /**
+     * Subscribe groups
+     **/
+    model.groups.subscribe(function( groups ){
+      jQuery( document ).trigger('wpp_groups_changed', jQuery('.wpp_section_class_admin_tools_settings_page'));
+    });
+
+    //** Notify observable that it was changed to reflect changes on view */
+    model.attributes.valueHasMutated();
+
+    jQuery( document ).on( 'change', '.wpp_attribute_classification', wpp_render_input_types );
+    //** Keep predefined types updated */
+    jQuery('.wpp_attribute_classification').trigger('change');
+    jQuery('.wpp_predefined_input_type').trigger('change');
+
+    jQuery( document ).on( 'change', '.wpp_attribute_group_slug', function(){
+      model.groups.valueHasMutated();
+    });
+
+  });
+
   /**
    * Ready Callback
    * @returns {undefined}
@@ -485,6 +556,9 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
 
     //** Apply AB to view */
     ko.applyBindings(AttributeBuilder, this);
+
+    //** Trigger AB Init action */
+    jQuery( document ).trigger( 'wpp::attribute_builder::init', [ AttributeBuilder, model.settings ] );
 
     //** Die here for now */
     return;
