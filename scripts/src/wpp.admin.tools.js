@@ -94,15 +94,15 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
           'storage': false, // boolean
           'value_to_slug': false // Sets value to slug
         }, valueAccessor());
-        /* All settings args are required */
+        //** All settings args are required */
         if (!settings.slug || !settings.text || !settings.instance) {
           return false;
         }
-        /* Links to slug and label data must be correct */
+        //** Links to slug and label data must be correct */
         if (typeof settings.slug === 'undefined' || typeof settings.text === 'undefined') {
           return false;
         }
-        /* Creates slug from string */
+        //** Creates slug from string */
         var create_slug = function(slug) {
           slug = slug.replace(/[^a-zA-Z0-9_\s]/g, "");
           slug = slug.toLowerCase();
@@ -119,17 +119,17 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
             window.__ud_slug_storage[settings.instance].push(settings.slug());
           }
         }
-        /* Adds Bindings to the current element */
+        //** Adds Bindings to the current element */
         jQuery(element).addClass(settings.instance).data('slug', settings.slug()).change(function( ) {
           var self = this,
                   val = jQuery(this).val(),
                   slug = create_slug(val),
                   exist = false;
-          /* Be sure that slug is not empty */
+          //** Be sure that slug is not empty */
           if (slug === '') {
             slug = 'random';
           }
-          /* Determine if slug is aready exist */
+          //** Determine if slug is aready exist */
           if (settings.storage) {
             if (typeof window.__ud_slug_storage[settings.instance] !== 'undefined') {
               if (window.__ud_slug_storage[settings.instance].indexOf(slug) != -1) {
@@ -143,41 +143,44 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
               }
             });
           }
-          /* Set unique slug by unique ID adding. */
+          //** Set unique slug by unique ID adding. */
           if (exist) {
             slug += '_' + (Math.floor(Math.random() * (99999999 - 1000000 + 1)) + 1000000)
           }
-          /* Do not set slug again if item is not new */
+          //** Do not set slug again if item is not new */
           if (typeof viewModel.new_item == 'function') {
             if (!viewModel.new_item()) {
               return false;
             }
           }
-          /* Set slug */
-          if (typeof settings.slug === 'function')
+          //** Set slug */
+          if (typeof settings.slug === 'function') {
             settings.slug(slug);
-          else
+          } else {
             settings.slug = slug;
-          /* Re-set label using observable if needed */
-          if (typeof settings.text === 'function')
+          }
+          //** Re-set label using observable if needed */
+          if (typeof settings.text === 'function') {
             settings.text(val);
-          else
+          } else {
             settings.text = val;
-          /*  */
+          }
           jQuery(self).data('slug', slug);
-          /* */
           if (settings.value_to_slug && slug !== 'random') {
             jQuery(self).val(slug);
           }
         });
-        /* Manually fire 'change' event to check slug of the current element on init */
+        //** Manually fire 'change' event to check slug of the current element on init */
         setTimeout(function() {
           jQuery(element).trigger('change')
         }, 100);
       }
     };
 
+    //** Mapping object for KO ApplyBinding */
     var mapping = {
+
+      //** Object to Array converter */
       _objectMap: function(o, handler) {
         var res = [];
         for (var key in o) {
@@ -185,6 +188,7 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
         }
         return res;
       },
+
       //** Observable Attributes */
       attributes: {
         create: function(data) {
@@ -195,6 +199,8 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
           return ko.observableArray(that);
         }
       },
+
+      //** Observable Groups */
       groups: {
         create: function(data) {
           var that = mapping._objectMap(data.data, function(group) {
@@ -204,6 +210,12 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
           return ko.observableArray(that);
         }
       },
+
+      /**
+       * Group Constructor
+       * @param {type} args
+       * @returns {undefined}
+       */
       _group: function(args) {
         var self = this;
         args = jQuery.extend(true, {
@@ -219,6 +231,11 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
           }
         }
 
+        /**
+         * Deletes current group
+         * @param {type} model
+         * @returns {undefined}
+         */
         self.delete_group = function(model) {
           var c = 'Are you sure you want to remove group? All assigned attributes will be moved to Other.';
           if (window.confirm(c)) {
@@ -231,6 +248,12 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
           }
         };
 
+        /**
+         * Toggles Edit Mode
+         * @param {type} item
+         * @param {type} event
+         * @returns {undefined}
+         */
         self.toggleEdit = function(item, event) {
           jQuery('input[tab="tab_' + item.slug() + '"]').trigger('change');
           self.edit_state(!self.edit_state());
@@ -256,9 +279,13 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
         };
       },
 
+      /**
+       * Attribute Constructor
+       * @param {type} args
+       * @returns {undefined}
+       */
       _attribute: function(args) {
         var self = this;
-
         args = jQuery.extend(true, {
           label: 'New Attribute',
           slug: 'new_attribute',
@@ -282,7 +309,6 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
           reserved: false,
           new_item: true
         }, typeof args === 'object' ? args : {});
-
         for (var i in args) {
           if (typeof args[i] !== 'function') {
             self[i] = ko.observable(args[i]);
@@ -291,6 +317,9 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
 
         /**
          * Show or hide predefined values for admin
+         * @param {type} object
+         * @param {type} e
+         * @returns {undefined}
          */
         self.show_admin_values = function(object, e) {
           var need_predefined = ['dropdown', 'multi_checkbox'];
@@ -304,6 +333,9 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
 
         /**
          * Show or hide predefined values for search
+         * @param {type} object
+         * @param {type} e
+         * @returns {undefined}
          */
         self.show_search_values = function(object, e) {
           var need_predefined = ['dropdown', 'multi_checkbox'];
@@ -317,6 +349,7 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
 
         /**
          * Toggle Attribute Settings handler
+         * @returns {undefined}
          */
         self.toggle_settings = function() {
           self.show_settings(!self.show_settings());
@@ -324,6 +357,9 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
 
         /**
          * Toggle Classifications selector handler
+         * @param {type} item
+         * @param {type} e
+         * @returns {undefined}
          */
         self.toggle_classifications = function(item, e) {
           e.stopPropagation();
@@ -332,6 +368,9 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
 
         /**
          * Handle click on attribute area
+         * @param {type} item
+         * @param {type} e
+         * @returns {Boolean}
          */
         self.click_inside = function(item, e) {
           self.show_classifications(false);
@@ -340,6 +379,9 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
 
         /**
          * Select classification handler
+         * @param {type} item
+         * @param {type} e
+         * @returns {undefined}
          */
         self.select_classification = function(item, e) {
           e.stopPropagation();
@@ -351,20 +393,31 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
           jQuery('.wpp_predefined_input_type').trigger('change');
           jQuery('.wpp_attribute_classification').trigger('change');
         };
-
       }
-
     };
 
+    //** Prepare data before applying */
     var prepared_data = jQuery.extend(model.settings._computed.data_structure, {
       attribute_classification: mapping._objectMap(model.settings._attribute_classifications, function(data) {
         return data;
       })
     });
 
+    //** Create Attribute Builder with mapped prepared data */
     var AttributeBuilder = ko_mapping.fromJS(prepared_data, mapping);
+
+    //** Migrate Constructors to AB to be accessible in */
     AttributeBuilder._group = mapping._group;
     AttributeBuilder._attribute = mapping._attribute;
+
+    /**
+     * Add Data to observable item
+     * @param {type} item
+     * @param {type} vhanlder
+     * @param {type} view_model
+     * @param {type} event
+     * @returns {undefined}
+     */
     AttributeBuilder.add_data = function(item, vhanlder, view_model, event) {
       if (typeof vhanlder == 'function') {
         item.push(new vhanlder);
@@ -373,6 +426,13 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
       }
     };
 
+    /**
+     * Remove Data from observable item
+     * @param {type} item
+     * @param {type} data
+     * @param {type} event
+     * @returns {undefined}
+     */
     AttributeBuilder.remove_data = function( item, data, event ) {
       var c = 'Are you sure you want to remove it?';
       if ( confirm( c ) ) {
@@ -380,14 +440,24 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
       }
     };
 
-    //** Add Attribute handler */
+    /**
+     * Add Attribute handler
+     * @param {type} attr
+     * @returns {undefined}
+     */
     AttributeBuilder.add_attribute = function( attr ) {
       //** Default settings for classification Short Text */
       attr.classification_settings = {searchable : true, indexable : true, editable : true, type : 'string'};
       this.attributes.push( new this._attribute( attr ) );
     };
 
-    //** Callback function for Drop event */
+    /**
+     * Callback function for Drop event
+     * @param {type} event
+     * @param {type} item
+     * @param {type} viewModel
+     * @returns {undefined}
+     */
     AttributeBuilder.drop_cb = function( event, item, viewModel ) {
       var item_slug = jQuery( item.draggable ).attr('wpp_attribute_slug');
       var target_group = jQuery( event.target ).attr('wpp_group_name');
@@ -403,15 +473,20 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
       });
     };
 
-    //** Sort Start Callback */
+    /**
+     * Sort Start Callback
+     * @param {type} event
+     * @param {type} object
+     * @returns {undefined}
+     */
     AttributeBuilder.sort_start_cb = function( event, object ) {
       object.helper.width(305).height(40);
     };
 
-    console.log(AttributeBuilder);
-
+    //** Apply AB to view */
     ko.applyBindings(AttributeBuilder, this);
 
+    //** Die here for now */
     return;
 
     var geo_type_attrs = [];
