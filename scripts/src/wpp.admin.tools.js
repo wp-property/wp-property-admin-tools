@@ -7,7 +7,8 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
   jQuery(document).bind( 'wpp::attribute_builder::init', function( e, model, settings ) {
 
     /**
-     * Was not able to do that using KO
+     * Render input types
+     * @returns {undefined}
      */
     function wpp_render_input_types() {
 
@@ -333,8 +334,8 @@ define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping'
             jQuery('input[tab="tab_' + item.slug() + '"]').focus().select();
           } else {
             var model = false;
-            if (typeof wpp.settings_ui.view_model === 'object') {
-              model = wpp.settings_ui.view_model.global;
+            if (typeof AttributeBuilder === 'object') {
+              model = AttributeBuilder;
               if (self.slug() !== self.prevName) {
                 ko.utils.arrayForEach(model.attributes(), function(attr) {
                   if (attr.group() === self.prevName) {
