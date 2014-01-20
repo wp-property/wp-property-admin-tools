@@ -2,7 +2,7 @@
  * Admin Tools Handler
  * @author korotkov@ud
  */
-define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping', 'jquery.ui'], function() {
+define('wpp.admin.tools', ['wpp.model', 'jquery', 'knockout', 'knockout.mapping', 'jquery.ui'], function() { 
 
   jQuery(document).bind( 'wpp::attribute_builder::init', function( e, model, settings ) {
 
