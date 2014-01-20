@@ -50,13 +50,13 @@
                                             <input type="text" class="wpp_label wpp_major" data-bind="unique_slug:{slug:$data.slug,text:$data.label,instance:'wpp_attribute_item_slug'}, value: $data.label, attr: { 'name': 'wpp_settings[property_stats][' + ( $data.slug() ) + ']' }" autocomplete="off" />
                                         </div>
 
-                                        <div class="wpp_input_wrapper wpp_hide_on_drag">
+                                        <div class="wpp_input_wrapper wpp_hide_on_drag wpp_classifications">
                                             <input type="text" class="wpp_label wpp_major" data-bind="value: $data.classification_label" autocomplete="off" readonly="readonly" />
                                             <!-- ko if: !$data.reserved() -->
                                             <ul class="wpp_attribute_classifications" data-bind="visible: $data.show_classifications, foreach: $root.attribute_classification">
                                                 <li data-bind="visible: !$data.settings.system()" ><a data-bind="click: $parentContext.$data.select_classification" href="javascript:void(0);"><span class="wpp_label" data-bind="text: $data.label"></span><span class="wpp_description" data-bind="text: $data.description"></span></a></li>
                                             </ul>
-                                            <span class="wpp_input_button" data-bind="click: $data.toggle_classifications"><span class="wpp_input_icon">classifications</span></span>
+                                            <span class="wpp_button" data-bind="click: $data.toggle_classifications"><span class="wpp_icon wpp_icon_148">classifications</span></span>
                                             <!-- /ko -->
                                         </div>
 
