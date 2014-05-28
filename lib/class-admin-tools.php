@@ -1,19 +1,20 @@
 <?php
 /**
  * Name: Admin Tools
+ * Slug: class_admin_tools
  * Feature ID: 1
  * Minimum Core Version: 1.36.0
+ * Minimum PHP Version: 5.3.0
  * Branch: 3.5.0
  * Version: 3.5.2
  * Description: Tools for developing themes and extensions for WP-Property.
  * Class: class_admin_tools
+ * Capability: manage_wpp_admintools
+ * Screen ID: tbd
  *
  */
-
 if( !class_exists( 'class_admin_tools' ) ) {
 
-  add_action( 'wpp_init', array( 'class_admin_tools', 'init' ) );
-  add_action( 'wpp_pre_init', array( 'class_admin_tools', 'pre_init' ) );
 
   /**
    * class_admin_tools Class
@@ -34,11 +35,16 @@ if( !class_exists( 'class_admin_tools' ) ) {
      */
     static protected $capability = "manage_wpp_admintools";
 
+    public function __construct() {
+      add_action( 'wpp_init', array( $this, 'init' ) );
+      add_action( 'wpp_pre_init', array( $this, 'pre_init' ) );
+    }
+
     /**
      * Special functions that must be called prior to init
      *
      */
-    function pre_init() {
+    public function pre_init() {
       /* Add capability */
       add_filter( 'wpp_capabilities', array( 'class_admin_tools', "add_capability" ) );
     }
@@ -47,7 +53,7 @@ if( !class_exists( 'class_admin_tools' ) ) {
      * Apply feature's Hooks and other functionality
      *
      */
-    static function init() {
+    public function init() {
 
       if( current_user_can( self::$capability ) ) {
         //** Add Inquiry page to Property Settings page array */
