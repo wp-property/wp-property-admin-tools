@@ -45,6 +45,7 @@ if( !class_exists( 'class_admin_tools' ) ) {
 
     /*
      * Apply feature's Hooks and other functionality
+     *
      */
     static function init() {
 
