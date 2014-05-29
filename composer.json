@@ -3,6 +3,10 @@
   "name": "usabilitydynamics/wp-property-admin-tools",
   "version": "3.5.2",
   "branch": "3.5.0",
+  "type": "wordpress-module",  
+  "extra": {
+    "installer-name": "admin-tools"
+  },
   "keywords": [ "wp-property" ],
   "require": {},
   "minimum-stability": "dev",
