@@ -2,6 +2,7 @@
 {
   "name": "usabilitydynamics/wp-property-admin-tools",
   "version": "3.5.2",
+  "type": "wordpress-module",  
   "keywords": [ "wp-property" ],
   "require": {},
   "minimum-stability": "dev",
@@ -10,5 +11,8 @@
       "type": "composer",
       "url": "http://repository.usabilitydynamics.com"
     }
-  ]
+  ],
+  "extra": {
+    "installer-name": "admin-tools"
+  }
 }
