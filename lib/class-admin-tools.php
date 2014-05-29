@@ -25,7 +25,7 @@ namespace UsabilityDynamics\WPP {
      * @package WP-Property
      * @subpackage Admin Functions
      */
-    class Admin_Tools extends Module {
+    class Admin_Tools {
 
       /**
        * ( custom ) Capability to manage the current feature
@@ -33,10 +33,8 @@ namespace UsabilityDynamics\WPP {
       static protected $capability = "manage_wpp_admintools";
 
       function __construct() {
-
         add_action( 'wpp_init', array( &$this, 'init' ) );
         add_action( 'wpp_pre_init', array( &$this, 'pre_init' ) );
-
       }
 
       function get( $key, $default ) {}
