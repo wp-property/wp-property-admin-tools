@@ -191,7 +191,7 @@
 
   <tr>
     <td>
-      <h3><?php printf( __( '%1s Types', 'wpp' ), UsabilityDynamics\WPP\Utility::property_label() ); ?></h3>
+      <h3><?php //printf( __( '%1s Types', 'wpp' ), UsabilityDynamics\WPP\Utility::property_label() ); ?></h3>
       <table id="wpp_inquiry_property_types" class="ud_ui_dynamic_table widefat" allow_random_slug="true">
       <thead>
         <tr>
@@ -308,27 +308,27 @@
       <h3><?php _e( 'Advanced Options', 'wpp' ); ?></h3>
       <ul>
         <li>
-          <?php echo UsabilityDynamics\WPP\Utility::checkbox( "name=wpp_settings[configuration][show_ud_log]&label=" . __( 'Show Log.', 'wpp' ), $wp_properties[ 'configuration' ][ 'show_ud_log' ] ); ?>
+          <?php // echo UsabilityDynamics\WPP\Utility::checkbox( "name=wpp_settings[configuration][show_ud_log]&label=" . __( 'Show Log.', 'wpp' ), $wp_properties[ 'configuration' ][ 'show_ud_log' ] ); ?>
           <br/>
           <span class="description"><?php _e( 'The log is always active, but the UI is hidden.  If enabled, it will be visible in the admin sidebar.', 'wpp' ); ?></span>
         </li>
         <li>
-          <?php echo UsabilityDynamics\WPP\Utility::checkbox( "name=wpp_settings[configuration][allow_parent_deep_depth]&label=" . __( 'Enable \'Falls Under\' deep depth.', 'wpp' ), $wp_properties[ 'configuration' ][ 'allow_parent_deep_depth' ] ); ?>
+          <?php //echo UsabilityDynamics\WPP\Utility::checkbox( "name=wpp_settings[configuration][allow_parent_deep_depth]&label=" . __( 'Enable \'Falls Under\' deep depth.', 'wpp' ), $wp_properties[ 'configuration' ][ 'allow_parent_deep_depth' ] ); ?>
           <br/>
           <span class="description"><?php _e( 'Allows to set child property as parent.', 'wpp' ); ?></span>
         </li>
         <li>
-          <?php echo UsabilityDynamics\WPP\Utility::checkbox( "name=wpp_settings[configuration][disable_automatic_feature_update]&label=" . __( 'Disable automatic feature updates.', 'wpp' ), $wp_properties[ 'configuration' ][ 'disable_automatic_feature_update' ] ); ?>
+          <?php //echo UsabilityDynamics\WPP\Utility::checkbox( "name=wpp_settings[configuration][disable_automatic_feature_update]&label=" . __( 'Disable automatic feature updates.', 'wpp' ), $wp_properties[ 'configuration' ][ 'disable_automatic_feature_update' ] ); ?>
           <br/>
           <span class="description"><?php _e( 'If disabled, feature updates will not be downloaded automatically.', 'wpp' ); ?></span>
         </li>
         <li>
-          <?php echo UsabilityDynamics\WPP\Utility::checkbox( "name=wpp_settings[configuration][disable_wordpress_postmeta_cache]&label=" . __( 'Disable WordPress update_post_caches() function.', 'wpp' ), $wp_properties[ 'configuration' ][ 'disable_wordpress_postmeta_cache' ] ); ?>
+          <?php// echo UsabilityDynamics\WPP\Utility::checkbox( "name=wpp_settings[configuration][disable_wordpress_postmeta_cache]&label=" . __( 'Disable WordPress update_post_caches() function.', 'wpp' ), $wp_properties[ 'configuration' ][ 'disable_wordpress_postmeta_cache' ] ); ?>
           <br/>
           <span class="description"><?php _e( 'This may solve Out of Memory issues if you have a lot of properties.', 'wpp' ); ?></span>
         </li>
         <li>
-          <?php echo UsabilityDynamics\WPP\Utility::checkbox( "name=wpp_settings[configuration][developer_mode]&label=" . __( 'Enable developer mode - some extra information displayed via Firebug console.', 'wpp' ), $wp_properties[ 'configuration' ][ 'developer_mode' ] ); ?>
+          <?php //echo UsabilityDynamics\WPP\Utility::checkbox( "name=wpp_settings[configuration][developer_mode]&label=" . __( 'Enable developer mode - some extra information displayed via Firebug console.', 'wpp' ), $wp_properties[ 'configuration' ][ 'developer_mode' ] ); ?>
           <br/>
         </li>
 
