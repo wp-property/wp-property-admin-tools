@@ -1,0 +1,578 @@
+{
+    "project": {
+        "name": "usabilitydynamics/wp-property-admin-tools",
+        "description": "",
+        "version": "3.6.0",
+        "url": ""
+    },
+    "files": {
+        "static/scripts/src/wpp.admin.tools.js": {
+            "name": "static/scripts/src/wpp.admin.tools.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {},
+    "classitems": [
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 1,
+            "description": "Admin Tools Handler",
+            "author": "korotkov@ud",
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 9,
+            "description": "Render input types",
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 41,
+            "description": "Help attribute tabs content to be proper height",
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 50,
+            "description": "Subscribe attributes",
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 58,
+            "description": "Subscribe groups",
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 79,
+            "description": "Ready Callback",
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 90,
+            "description": "KnockoutJS binding for sortable",
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 100,
+            "description": "KnockoutJS binding for Enter key pressing prevention",
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 115,
+            "description": "KnockoutJS binding for UI tabs",
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 157,
+            "description": "KnockoutJS binding for unique slug generator",
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 286,
+            "description": "Group Constructor",
+            "params": [
+                {
+                    "name": "args",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 306,
+            "description": "Deletes current group",
+            "params": [
+                {
+                    "name": "model",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 323,
+            "description": "Toggles Edit Mode",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 354,
+            "description": "Attribute Constructor",
+            "params": [
+                {
+                    "name": "args",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 390,
+            "description": "Show or hide predefined values for admin",
+            "params": [
+                {
+                    "name": "object",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "e",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 406,
+            "description": "Show or hide predefined values for search",
+            "params": [
+                {
+                    "name": "object",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "e",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 422,
+            "description": "Toggle Attribute Settings handler",
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 430,
+            "description": "Toggle Classifications selector handler",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "e",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 441,
+            "description": "Handle click on attribute area",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "e",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 452,
+            "description": "Select classification handler",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "e",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 485,
+            "description": "Add Data to observable item",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "vhanlder",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "view_model",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 501,
+            "description": "Remove Data from observable item",
+            "params": [
+                {
+                    "name": "item",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 515,
+            "description": "Add Attribute handler",
+            "params": [
+                {
+                    "name": "attr",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 526,
+            "description": "Callback function for Drop event",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "item",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "viewModel",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        },
+        {
+            "file": "static/scripts/src/wpp.admin.tools.js",
+            "line": 548,
+            "description": "Sort Start Callback",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Type"
+                },
+                {
+                    "name": "object",
+                    "description": "",
+                    "type": "Type"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Undefined"
+            },
+            "class": ""
+        }
+    ],
+    "warnings": [
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:9"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:79"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:286"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:306"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:323"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:354"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:390"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:406"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:422"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:430"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:441"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:452"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:485"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:501"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:515"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:526"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " static/scripts/src/wpp.admin.tools.js:548"
+        },
+        {
+            "message": "Missing item type\nAdmin Tools Handler",
+            "line": " static/scripts/src/wpp.admin.tools.js:1"
+        },
+        {
+            "message": "Missing item type\nRender input types",
+            "line": " static/scripts/src/wpp.admin.tools.js:9"
+        },
+        {
+            "message": "Missing item type\nHelp attribute tabs content to be proper height",
+            "line": " static/scripts/src/wpp.admin.tools.js:41"
+        },
+        {
+            "message": "Missing item type\nSubscribe attributes",
+            "line": " static/scripts/src/wpp.admin.tools.js:50"
+        },
+        {
+            "message": "Missing item type\nSubscribe groups",
+            "line": " static/scripts/src/wpp.admin.tools.js:58"
+        },
+        {
+            "message": "Missing item type\nReady Callback",
+            "line": " static/scripts/src/wpp.admin.tools.js:79"
+        },
+        {
+            "message": "Missing item type\nKnockoutJS binding for sortable",
+            "line": " static/scripts/src/wpp.admin.tools.js:90"
+        },
+        {
+            "message": "Missing item type\nKnockoutJS binding for Enter key pressing prevention",
+            "line": " static/scripts/src/wpp.admin.tools.js:100"
+        },
+        {
+            "message": "Missing item type\nKnockoutJS binding for UI tabs",
+            "line": " static/scripts/src/wpp.admin.tools.js:115"
+        },
+        {
+            "message": "Missing item type\nKnockoutJS binding for unique slug generator",
+            "line": " static/scripts/src/wpp.admin.tools.js:157"
+        },
+        {
+            "message": "Missing item type\nGroup Constructor",
+            "line": " static/scripts/src/wpp.admin.tools.js:286"
+        },
+        {
+            "message": "Missing item type\nDeletes current group",
+            "line": " static/scripts/src/wpp.admin.tools.js:306"
+        },
+        {
+            "message": "Missing item type\nToggles Edit Mode",
+            "line": " static/scripts/src/wpp.admin.tools.js:323"
+        },
+        {
+            "message": "Missing item type\nAttribute Constructor",
+            "line": " static/scripts/src/wpp.admin.tools.js:354"
+        },
+        {
+            "message": "Missing item type\nShow or hide predefined values for admin",
+            "line": " static/scripts/src/wpp.admin.tools.js:390"
+        },
+        {
+            "message": "Missing item type\nShow or hide predefined values for search",
+            "line": " static/scripts/src/wpp.admin.tools.js:406"
+        },
+        {
+            "message": "Missing item type\nToggle Attribute Settings handler",
+            "line": " static/scripts/src/wpp.admin.tools.js:422"
+        },
+        {
+            "message": "Missing item type\nToggle Classifications selector handler",
+            "line": " static/scripts/src/wpp.admin.tools.js:430"
+        },
+        {
+            "message": "Missing item type\nHandle click on attribute area",
+            "line": " static/scripts/src/wpp.admin.tools.js:441"
+        },
+        {
+            "message": "Missing item type\nSelect classification handler",
+            "line": " static/scripts/src/wpp.admin.tools.js:452"
+        },
+        {
+            "message": "Missing item type\nAdd Data to observable item",
+            "line": " static/scripts/src/wpp.admin.tools.js:485"
+        },
+        {
+            "message": "Missing item type\nRemove Data from observable item",
+            "line": " static/scripts/src/wpp.admin.tools.js:501"
+        },
+        {
+            "message": "Missing item type\nAdd Attribute handler",
+            "line": " static/scripts/src/wpp.admin.tools.js:515"
+        },
+        {
+            "message": "Missing item type\nCallback function for Drop event",
+            "line": " static/scripts/src/wpp.admin.tools.js:526"
+        },
+        {
+            "message": "Missing item type\nSort Start Callback",
+            "line": " static/scripts/src/wpp.admin.tools.js:548"
+        }
+    ]
+}

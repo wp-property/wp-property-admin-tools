@@ -20,7 +20,7 @@ module.exports = function build( grunt ) {
         version: '<%= pkg.version %>',
         url: '<%= pkg.homepage %>',
         options: {
-          paths: [ 'lib', 'scripts/src' ],
+          paths: [ 'lib', 'static/scripts/src' ],
           outdir: 'static/codex/'
         }
       }
@@ -34,7 +34,7 @@ module.exports = function build( grunt ) {
           relativeUrls: true
         },
         files: {
-          'styles/wpp.admin.tools.dev.css': [ 'styles/src/wpp.admin.tools.dev.less' ]
+          'static/styles/wpp.admin.tools.dev.css': [ 'static/styles/src/wpp.admin.tools.dev.less' ]
         }
       },
       production: {
@@ -43,7 +43,7 @@ module.exports = function build( grunt ) {
           relativeUrls: true
         },
         files: {
-          'styles/wpp.admin.tools.css': [ 'styles/src/wpp.admin.tools.less' ]
+          'static/styles/wpp.admin.tools.css': [ 'static/styles/src/wpp.admin.tools.less' ]
         }
       }
     },
@@ -56,13 +56,13 @@ module.exports = function build( grunt ) {
       },
       less: {
         files: [
-          //'styles/src/*.*'
+          //'static/styles/src/*.*'
         ],
         tasks: [ 'less:production' ]
       },
       js: {
         files: [
-          'scripts/src/*.*'
+          'static/scripts/src/*.*'
         ],
         tasks: [ 'uglify:production' ]
       }
@@ -78,9 +78,9 @@ module.exports = function build( grunt ) {
         files: [
           {
             expand: true,
-            cwd: 'scripts/src',
+            cwd: 'static/scripts/src',
             src: [ '*.js' ],
-            dest: 'scripts'
+            dest: 'static/scripts'
           }
         ]
       }
