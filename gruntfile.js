@@ -9,16 +9,34 @@ module.exports = function build( grunt ) {
 
   grunt.initConfig({
 
+    // Ready Composer Meta.
+    meta: grunt.file.readJSON( 'composer.json' ),
+
     // Read Composer File.
-    pkg: grunt.file.readJSON( 'composer.json' ),
+    settings: grunt.file.readJSON( 'composer.json' ).extra,
+
+    // Locale.
+    pot: {
+      options:{
+        package_name: '<%= settings.name %>',
+        package_version: '<%= settings.version %>',
+        text_domain: '<%= settings.name %>',
+        dest: 'static/languages/',
+        keywords: [ 'gettext', 'ngettext:1,2' ]
+      },
+      files:{
+        src:  [ 'lib/*.php' ],
+        expand: true
+      }
+    },
 
     // Generate Documentation.
     yuidoc: {
       compile: {
-        name: '<%= pkg.name %>',
-        description: '<%= pkg.description %>',
-        version: '<%= pkg.version %>',
-        url: '<%= pkg.homepage %>',
+        name: '<%= meta.name %>',
+        description: '<%= meta.description %>',
+        version: '<%= meta.version %>',
+        url: '<%= meta.homepage %>',
         options: {
           paths: [ 'lib', 'static/scripts/src' ],
           outdir: 'static/codex/'
@@ -28,23 +46,19 @@ module.exports = function build( grunt ) {
 
     // Compile LESS.
     less: {
-      development: {
-        options: {
-          yuicompress: false,
-          relativeUrls: true
-        },
-        files: {
-          'static/styles/wpp.admin.tools.dev.css': [ 'static/styles/src/wpp.admin.tools.dev.less' ]
-        }
-      },
       production: {
         options: {
           yuicompress: true,
           relativeUrls: true
         },
-        files: {
-          'static/styles/wpp.admin.tools.css': [ 'static/styles/src/wpp.admin.tools.less' ]
-        }
+        files: [
+          {
+            expand: true,
+            cwd: 'static/styles/src',
+            src: [ '*.js' ],
+            dest: 'static/styles'
+          }
+        ]
       }
     },
 
@@ -56,15 +70,15 @@ module.exports = function build( grunt ) {
       },
       less: {
         files: [
-          //'static/styles/src/*.*'
+          'static/styles/src/*.less'
         ],
-        tasks: [ 'less:production' ]
+        tasks: [ 'less' ]
       },
       js: {
         files: [
           'static/scripts/src/*.*'
         ],
-        tasks: [ 'uglify:production' ]
+        tasks: [ 'uglify' ]
       }
     },
 
@@ -112,15 +126,6 @@ module.exports = function build( grunt ) {
     // Clean for Development.
     clean: {},
 
-    // Coverage Tests.
-    mochacov: {
-      options: {
-        reporter: 'list',
-        requires: [ 'should' ]
-      },
-      all: [ 'test/*.js' ]
-    },
-
     // Usage Tests.
     mochacli: {
       options: {
@@ -130,7 +135,7 @@ module.exports = function build( grunt ) {
         bail: false
       },
       all: [
-        'test/*.js'
+        'static/test/js/*.js'
       ]
     }
 
@@ -146,15 +151,15 @@ module.exports = function build( grunt ) {
   grunt.loadNpmTasks( 'grunt-contrib-concat' );
   grunt.loadNpmTasks( 'grunt-contrib-clean' );
   grunt.loadNpmTasks( 'grunt-mocha-cli' );
-  grunt.loadNpmTasks( 'grunt-mocha-cov' );
+  grunt.loadNpmTasks( 'grunt-pot' );
 
-  // Register NPM Tasks.
-  grunt.registerTask( 'default', [ 'markdown', 'less:production' , 'yuidoc', 'uglify:production' ] );
+  // Default Build.
+  grunt.registerTask( 'default', [ 'markdown', 'less' , 'yuidoc', 'uglify' ] );
+
+  // Default Build.
+  grunt.registerTask( 'build', [ 'markdown', 'less' , 'yuidoc', 'uglify' ] );
 
   // Build Distribution.
-  grunt.registerTask( 'distribution', [ 'mochacli:all', 'mochacov:all', 'clean:all', 'markdown', 'less:production', 'uglify:production' ] );
-
-  // Update Environment.
-  grunt.registerTask( 'update', [ 'clean:update', 'shell:update' ] );
+  grunt.registerTask( 'distribution', [ 'mochacli:all', 'clean:all', 'markdown', 'less', 'uglify' ] );
 
 };

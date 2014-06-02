@@ -1,6 +1,5 @@
 node_modules
 vendor
-core/premium
 .svn
 .idea
 .idea/workspace.xml
@@ -20,3 +19,4 @@ core/premium
 *.out
 *.pid
 *.gz
+static/codex

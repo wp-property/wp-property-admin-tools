@@ -6,7 +6,10 @@
   "keywords": [
     "wp-property"
   ],
-  "require": {},
+  "require": {
+    "php": ">=5.3",
+    "usabilitydynamics/lib-installer": "master"
+  },
   "minimum-stability": "dev",
   "repositories": [
     {
