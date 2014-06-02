@@ -2,7 +2,7 @@
 /**
  * Name: Admin Tools
  * Class: UsabilityDynamics\WPP\Admin_Tools
- * Minimum Core Version: 1.38.3
+ * Minimum Core Version: 1.42.0
  * Version: 3.6.0
  * Branch: 3.6.0
  * Description: Administrative Tools.
