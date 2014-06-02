@@ -1,9 +1,11 @@
 
 {
   "name": "usabilitydynamics/wp-property-admin-tools",
-  "version": "3.5.2",
+  "version": "3.6.0",
   "type": "wordpress-module",  
-  "keywords": [ "wp-property" ],
+  "keywords": [
+    "wp-property"
+  ],
   "require": {},
   "minimum-stability": "dev",
   "repositories": [
@@ -13,6 +15,8 @@
     }
   ],
   "extra": {
-    "installer-name": "admin-tools"
+    "installer-name": "admin-tools",
+    "main-file": "lib/class-admin-tools.php",
+    "class": "UsabilityDynamics\\WPP\\Admin_Tools"
   }
 }

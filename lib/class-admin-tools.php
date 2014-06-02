@@ -3,7 +3,8 @@
  * Name: Admin Tools
  * Class: UsabilityDynamics\WPP\Admin_Tools
  * Minimum Core Version: 1.38.3
- * Version: 3.5.2
+ * Version: 3.6.0
+ * Branch: 3.6.0
  * Description: Administrative Tools.
  * Capability: manage_wpp_admintools
  * Slug: wp-property-admin-tools
@@ -18,7 +19,7 @@ namespace UsabilityDynamics\WPP {
      *
      * Contains administrative functions
      *
-     * Copyright 2010 Andy Potanin, TwinCitiesTech.com, Inc.  <andy.potanin@twincitiestech.com>
+     * Copyright 2010-2014, Usability Dynamics, Inc.  <andy.potanin@twincitiestech.com>
      *
      * @version 1.0
      * @author Andy Potanin <andy.potanin@twincitiestech.com>
@@ -32,12 +33,29 @@ namespace UsabilityDynamics\WPP {
        */
       static protected $capability = "manage_wpp_admintools";
 
+      /**
+       * Initializer.
+       *
+       */
       function __construct() {
-        add_action( 'wpp_init', array( &$this, 'init' ) );
-        add_action( 'wpp_pre_init', array( &$this, 'pre_init' ) );
+        add_action( 'wpp_init', array( $this, 'init' ) );
+        add_action( 'wpp_pre_init', array( $this, 'pre_init' ) );
       }
 
+      /**
+       * Setting Getter.
+       *
+       * @param $key
+       * @param $default
+       */
       function get( $key, $default ) {}
+
+      /**
+       * Setting Setter.
+       *
+       * @param $key
+       * @param $value
+       */
       function set( $key, $value ) {}
 
       /**
@@ -54,15 +72,18 @@ namespace UsabilityDynamics\WPP {
        */
       function init() {
 
-        if( current_user_can( self::$capability ) ) {
-          //** Add Inquiry page to Property Settings page array */
-          add_filter( 'wpp_settings_nav', array( &$this, 'settings_nav' ) );
-          //** Add Settings Page */
-
-          add_action( 'wpp_settings_content_admin_tools', array( &$this, 'settings_page' ) );
-          //** Contextual Help */
-          add_action( 'property_page_property_settings_help', array( &$this, 'wpp_contextual_help' ) );
+        if( !current_user_can( self::$capability ) ) {
+          return;
         }
+
+        //** Add Inquiry page to Property Settings page array */
+        add_filter( 'wpp_settings_nav', array( &$this, 'settings_nav' ) );
+
+        //** Add Settings Page */
+        add_action( 'wpp_settings_content_admin_tools', array( &$this, 'settings_page' ) );
+
+        //** Contextual Help */
+        add_action( 'property_page_property_settings_help', array( &$this, 'wpp_contextual_help' ) );
 
       }
 
@@ -106,7 +127,7 @@ namespace UsabilityDynamics\WPP {
        * Adds admin tools manu to settings page navigation
        *
        * @version 1.0
-       * Copyright 2010 Andy Potanin, TwinCitiesTech.com, Inc.  <andy.potanin@twincitiestech.com>
+       * Copyright 2010-2014, Usability Dynamics, Inc.  <andy.potanin@twincitiestech.com>
        */
       function settings_nav( $tabs ) {
 
@@ -116,6 +137,7 @@ namespace UsabilityDynamics\WPP {
         );
 
         return $tabs;
+
       }
 
       /**
@@ -123,12 +145,10 @@ namespace UsabilityDynamics\WPP {
        *
        *
        * @version 1.0
-       * Copyright 2010 Andy Potanin, TwinCitiesTech.com, Inc.  <andy.potanin@twincitiestech.com>
+       * Copyright 2010-2014, Usability Dynamics, Inc.  <andy.potanin@twincitiestech.com>
        */
       function settings_page() {
         global $wpdb, $wp_properties;
-
-        //$wpp_inheritable_attributes = $wp_properties[ 'property_stats' ];
 
         include_once( __DIR__ . '/ui/settings-section.php' );
 

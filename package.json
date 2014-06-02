@@ -1,6 +1,6 @@
 {
-  "name": "usabilitydynamics.wp-property-admin-tools",
-  "version": "3.5.2",
+  "name": "wp-property-admin-tools",
+  "version": "3.6.0",
   "description": "Admin Tools",
   "repository": {
     "type": "git",
