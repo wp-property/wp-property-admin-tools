@@ -29,6 +29,30 @@ namespace UsabilityDynamics\WPP {
     class Admin_Tools {
 
       /**
+       * Module Path.
+       *
+       * @public
+       * @static
+       * @property $path
+       * @type {string}
+       */
+      static public $path = null;
+
+      /**
+       * Settings.
+       *
+       * @var null|\UsabilityDynamics\Settings
+       */
+      private $_settings = null;
+
+      /**
+       * Parent Product.
+       *
+       * @var array|null
+       */
+      private $_parent = null;
+
+      /**
        * ( custom ) Capability to manage the current feature
        */
       static protected $capability = "manage_wpp_admintools";
@@ -36,10 +60,32 @@ namespace UsabilityDynamics\WPP {
       /**
        * Initializer.
        *
+       * @param array $parent
+       * @param array $settings
+       *
+       * @throws Exception
        */
-      function __construct() {
-        add_action( 'wpp_init', array( $this, 'init' ) );
-        add_action( 'wpp_pre_init', array( $this, 'pre_init' ) );
+      function __construct( $parent = array(), $settings = array() ) {
+
+        try {
+
+          if( !class_exists( 'UsabilityDynamics\Utility' ) ) {
+            throw new Exception( "Missing essential (Utility) library.." );
+          }
+
+          // Set root path.
+          self::$path = self::$path ? self::$path : dirname( __DIR__ );
+
+          // Set Parent.
+          $this->_parent = $parent;
+
+          add_action( 'wpp_init', array( $this, 'init' ) );
+          add_action( 'wpp_pre_init', array( $this, 'pre_init' ) );
+
+        } catch( \Exception $error ) {
+          trigger_error( $error->getMesage() );
+        }
+
       }
 
       /**

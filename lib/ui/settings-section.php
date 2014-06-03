@@ -1,4 +1,4 @@
-<div data-requires="wpp.admin.tools" class="form-table wpp_option_table wpp_setting_interface">
+<div class="form-table wpp_option_table wpp_setting_interface" data-requires-disabled="<?php echo plugins_url( 'static/scripts/src/wpp.admin.tools.js', UsabilityDynamics\WPP\Admin_Tools::$path ); ?>">
   <div class="ud_tbody">
     <div class="wpp_primary_section">
       <div class="ud_td">
