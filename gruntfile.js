@@ -7,25 +7,43 @@
  */
 module.exports = function build( grunt ) {
 
+  // Require Utility Modules.
+  var joinPath      = require( 'path' ).join;
+  var resolvePath   = require( 'path' ).resolve;
+  var findup        = require( 'findup-sync' );
+
+  // Determine Paths.
+  var _paths = {
+    composer: findup( 'composer.json' ),
+    package: findup( 'package.json' ),
+    vendor: findup( 'vendor' ),
+    languages: findup( 'static/languages' ),
+    codex: findup( 'static/codex' ),
+    styles: findup( 'static/styles' ),
+    scripts: findup( 'static/scripts' ),
+    phpTests: findup( 'static/test/php' ),
+    jsTests: findup( 'static/test/js' )
+  };
+
   grunt.initConfig({
 
     // Ready Composer Meta.
-    meta: grunt.file.readJSON( 'composer.json' ),
+    meta: grunt.file.readJSON( _paths.composer ),
 
     // Read Composer File.
-    settings: grunt.file.readJSON( 'composer.json' ).extra,
+    settings: grunt.file.readJSON( _paths.composer ).extra,
 
     // Locale.
     pot: {
       options:{
-        package_name: '<%= settings.name %>',
-        package_version: '<%= settings.version %>',
-        text_domain: '<%= settings.name %>',
-        dest: 'static/languages/',
+        package_name: '<%= meta.name %>',
+        package_version: '<%= meta.version %>',
+        text_domain: '<%= settings.text_domain %>',
+        dest: _paths.languages,
         keywords: [ 'gettext', 'ngettext:1,2' ]
       },
       files:{
-        src:  [ 'lib/*.php' ],
+        src: [ 'lib/*.php' ],
         expand: true
       }
     },
@@ -39,7 +57,7 @@ module.exports = function build( grunt ) {
         url: '<%= meta.homepage %>',
         options: {
           paths: [ 'lib', 'static/scripts/src' ],
-          outdir: 'static/codex/'
+          outdir: _paths.codex
         }
       }
     },
@@ -54,9 +72,13 @@ module.exports = function build( grunt ) {
         files: [
           {
             expand: true,
-            cwd: 'static/styles/src',
-            src: [ '*.js' ],
-            dest: 'static/styles'
+            cwd: joinPath( resolvePath( _paths.styles ), 'src' ),
+            src: [ '*.less' ],
+            dest: _paths.styles,
+            rename: function renameLess( dest, src ) {
+              return joinPath( dest, src.replace( '.less', '.css' ) );
+            }
+
           }
         ]
       }
@@ -92,7 +114,7 @@ module.exports = function build( grunt ) {
         files: [
           {
             expand: true,
-            cwd: 'static/scripts/src',
+            cwd: resolvePath( _paths.scripts ) + '/src',
             src: [ '*.js' ],
             dest: 'static/scripts'
           }
@@ -143,7 +165,6 @@ module.exports = function build( grunt ) {
 
   // Load NPM Tasks.
   grunt.loadNpmTasks( 'grunt-markdown' );
-  grunt.loadNpmTasks( 'grunt-requirejs' );
   grunt.loadNpmTasks( 'grunt-contrib-yuidoc' );
   grunt.loadNpmTasks( 'grunt-contrib-uglify' );
   grunt.loadNpmTasks( 'grunt-contrib-watch' );
