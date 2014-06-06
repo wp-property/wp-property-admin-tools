@@ -61,30 +61,25 @@ namespace UsabilityDynamics\WPP {
        * Initializer.
        *
        * @param array $parent
-       * @param array $settings
+       * @param array $module
        *
        * @throws Exception
        */
-      function __construct( $parent = array(), $settings = array() ) {
+      function __construct( &$parent, &$module = array() ) {
 
-        try {
-
-          if( !class_exists( 'UsabilityDynamics\Utility' ) ) {
-            throw new Exception( "Missing essential (Utility) library.." );
-          }
-
-          // Set root path.
-          self::$path = self::$path ? self::$path : dirname( __DIR__ );
-
-          // Set Parent.
-          $this->_parent = $parent;
-
-          add_action( 'wpp_init', array( $this, 'init' ) );
-          add_action( 'wpp_pre_init', array( $this, 'pre_init' ) );
-
-        } catch( \Exception $error ) {
-          trigger_error( $error->getMesage() );
+        if( !class_exists( 'UsabilityDynamics\Utility' ) ) {
+          throw new Exception( "Missing essential (Utility) library.." );
         }
+
+        // Set root path.
+        self::$path = self::$path ? self::$path : dirname( __DIR__ );
+
+        // Set Parent.
+        $this->_parent = $parent;
+
+        add_action( 'wpp_init', array( $this, 'init' ) );
+        add_action( 'wpp_pre_init', array( $this, 'pre_init' ) );
+
 
       }
 
