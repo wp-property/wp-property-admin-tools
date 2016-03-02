@@ -1,8 +1,8 @@
 {
-  "name": "usabilitydynamics/wp-property-admin-tools",
+  "name": "wp-property/wp-property-admin-tools",
   "version": "3.6.0",
   "type": "wordpress-module",
-  "homepage": "http://github.com/UsabilityDynamics/wp-property-admin-tools",
+  "homepage": "http://github.com/wp-property/wp-property-admin-tools",
   "keywords": [
     "wp-property"
   ],
